@@ -164,11 +164,8 @@ class NMT(nn.Module):
         ###     Tensor Permute:
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
 
-        print("Raw Rources Input: {}".format(source_padded.shape))
         X = self.model_embeddings.source(source_padded)
-        print("After Embedding: {}".format(X.shape))
         X = pack_padded_sequence(X, source_lengths)
-        print("After pack_padded_sequence :{}".format(X.data.shape))
         enc_hiddens, (last_hidden, last_cell) = self.encoder(X)
         enc_hiddens = pad_packed_sequence(enc_hiddens)[0] #[20, 5, 6]
         enc_hiddens = enc_hiddens.permute(1,0,2)
